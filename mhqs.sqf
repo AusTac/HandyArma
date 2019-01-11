@@ -25,6 +25,15 @@ _mhqs = entities [[ mhq_vehicle_type ], []];
 	_vehicleName = vehicleVarName _x;
 	_actionString = "";
 	_placeName = text nearestLocation [_x,""];
+	if (_placeName=="") then {
+		_nearestCity = nearestLocation [player,"nameCity"];
+		_nearestVillage = nearestLocation [player,"nameVillage"];
+		if ((player distance (getPos _nearestCity)) > (player distance (getPos _nearestVillage))) then {
+			_placeName = text _nearestVillage;
+		} else {
+			_placeName = text _nearestCity;
+		};
+	};
 	_actionString = "MHQ " + _vehicleName + " near " + _placeName;
 	_target addAction[_actionString, {cutText ["Redeploying...","BLACK FADED",0.3];player moveInCargo ((_this select 3) select 0);},[_x],6,true,true,"","true",5];
 } forEach _mhqs;
